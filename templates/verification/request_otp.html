@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card narrow">
+    <h2>HR Verification: Step 1</h2>
+    <p>Enter candidate National ID to send OTP to registered email.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send OTP</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 240" role="img" aria-label="Citizen module">
+  <defs>
+    <linearGradient id="citbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff6ed"/>
+      <stop offset="100%" stop-color="#ffe9d5"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="240" rx="22" fill="url(#citbg)"/>
+  <rect x="78" y="52" width="260" height="144" rx="14" fill="#ffffff"/>
+  <circle cx="132" cy="106" r="22" fill="#fac08f"/>
+  <rect x="105" y="132" width="54" height="36" rx="10" fill="#f4d6bf"/>
+  <rect x="180" y="84" width="128" height="12" rx="6" fill="#f0d9c5"/>
+  <rect x="180" y="108" width="104" height="12" rx="6" fill="#f0d9c5"/>
+  <rect x="180" y="132" width="86" height="12" rx="6" fill="#f0d9c5"/>
+  <rect x="272" y="144" width="94" height="62" rx="10" fill="#0f6b43"/>
+  <path d="M286 162h66M286 176h66M286 190h50" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+</svg>

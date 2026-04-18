@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-hero soft alt">
+    <div>
+        <p class="eyebrow">Institution Dashboard</p>
+        <h1>
+            {% if institution %}
+                {{ institution.name }}
+            {% else %}
+                Manage Certificates
+            {% endif %}
+        </h1>
+        <p class="lede">Add new credentials, review submissions, and keep your graduate records current.</p>
+    </div>
+    <div class="hero-panel">
+        <p class="kpi-label">Total Records</p>
+        <p class="kpi-value">{{ records_count }}</p>
+        <p class="kpi-sub">Unique graduates: {{ graduates_count }}</p>
+        {% if recent_years %}
+            <p class="kpi-mini">Latest years: {% for y in recent_years %}{{ y.graduation_year }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        {% endif %}
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-primary" href="{% url 'institution_certificate_add' %}">Add Certificate</a>
+        <a class="btn btn-ghost" href="{% url 'institution_certificates' %}">View All Records</a>
+    </div>
+</div>
+
+<div class="dashboard-cards">
+    <article class="card-cta">
+        <h2>Add Certificate</h2>
+        <p>Capture a new graduate record and link it to a National ID in seconds.</p>
+        <a class="btn btn-primary" href="{% url 'institution_certificate_add' %}">Add Record</a>
+    </article>
+
+    <article class="card-cta">
+        <h2>All Certificates</h2>
+        <p>Browse and export every record associated with your institution.</p>
+        <a class="btn btn-primary" href="{% url 'institution_certificates' %}">Open Registry</a>
+    </article>
+
+    <article class="card-cta">
+        <h2>Recent Submissions</h2>
+        <p>Latest records you added or updated.</p>
+        <div class="card-inline">
+            <span class="pill info">Newest</span>
+            <ul class="mini-list">
+                {% for rec in recent_records %}
+                    <li>{{ rec.national_id }} · {{ rec.certificate_name }} ({{ rec.graduation_year }})</li>
+                {% empty %}
+                    <li>No records yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+
+    <article class="card-cta">
+        <h2>Support</h2>
+        <p>Need help with corrections or bulk uploads? Reach out to the gov admin team.</p>
+        <a class="btn btn-ghost" href="{% url 'dashboard_admin' %}">Contact Admin</a>
+    </article>
+</div>
+{% endblock %}

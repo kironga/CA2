@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CA² - Credential Authentication</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-wrap">
+            <a class="brand" href="{% url 'home' %}">
+                <img class="brand-logo" src="{% static 'images/ca2-logo-system.svg' %}" alt="CA2 System Logo">
+                <span class="brand-name">CA² System</span>
+            </a>
+            <nav class="top-nav">
+                <a href="{% url 'home' %}">Home</a>
+                <details class="nav-dropdown">
+                    <summary>Portals</summary>
+                    <div class="nav-dropdown-menu">
+                        <a href="{% url 'login' %}?portal=gov&next={% url 'dashboard_admin' %}">Government Portal</a>
+                        <a href="{% url 'login' %}?portal=institution&next={% url 'dashboard_institution' %}">Institution Portal</a>
+                        <a href="{% url 'login' %}?portal=hr&next={% url 'dashboard_hr' %}">HR Portal</a>
+                        <a href="{% url 'login' %}?portal=citizen&next={% url 'dashboard_citizen' %}">Citizen Portal</a>
+                    </div>
+                </details>
+                <a href="{% url 'about_us' %}">About Us</a>
+                <a href="{% url 'contact_us' %}">Contact Us</a>
+                <a href="{% url 'vacancies_opportunities' %}">Vacancies & Opportunities</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'role_redirect' %}">Dashboard</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'citizen_register' %}">Citizen Signup</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% if user.is_authenticated %}
+        <div class="component-bar">
+            <div class="container component-wrap">
+                <span class="component-role">Signed in as {{ user.get_role_display }}</span>
+                <div class="component-actions">
+                    <a href="javascript:history.back()">Back</a>
+                    <a href="{% url 'role_redirect' %}">Component Home</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <main class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="container footer-grid">
+                <section class="footer-col">
+                    <h3>Kenyan Education Bodies</h3>
+                    <ul class="footer-list">
+                        <li><a href="https://www.education.go.ke/" target="_blank" rel="noopener">Ministry of Education</a></li>
+                        <li><a href="https://www.knec.ac.ke/" target="_blank" rel="noopener">Kenya National Examinations Council (KNEC)</a></li>
+                        <li><a href="https://www.kuccps.net/" target="_blank" rel="noopener">KUCCPS</a></li>
+                        <li><a href="https://www.helb.co.ke/" target="_blank" rel="noopener">Higher Education Loans Board (HELB)</a></li>
+                        <li><a href="https://www.tveta.go.ke/" target="_blank" rel="noopener">Technical and Vocational Education and Training Authority (TVETA)</a></li>
+                        <li><a href="https://www.cue.or.ke/" target="_blank" rel="noopener">Commission for University Education (CUE)</a></li>
+                    </ul>
+                </section>
+
+                <section class="footer-col">
+                    <h3>Universities and Professional Bodies</h3>
+                    <ul class="footer-list">
+                        <li><a href="https://www.uonbi.ac.ke/" target="_blank" rel="noopener">University of Nairobi</a></li>
+                        <li><a href="https://www.ku.ac.ke/" target="_blank" rel="noopener">Kenyatta University</a></li>
+                        <li><a href="https://www.jkuat.ac.ke/" target="_blank" rel="noopener">Jomo Kenyatta University of Agriculture and Technology</a></li>
+                        <li><a href="https://www.egerton.ac.ke/" target="_blank" rel="noopener">Egerton University</a></li>
+                        <li><a href="https://www.kasneb.or.ke/" target="_blank" rel="noopener">KASNEB</a></li>
+                        <li><a href="https://www.knqa.go.ke/" target="_blank" rel="noopener">Kenya National Qualifications Authority (KNQA)</a></li>
+                    </ul>
+                </section>
+
+                <section class="footer-col">
+                    <h3>CA² Contacts</h3>
+                    <ul class="footer-list contacts">
+                        <li><span>CA² National Verification Secretariat</span></li>
+                        <li><span>Integrity Centre, Nairobi, Kenya</span></li>
+                        <li><span>P.O. Box 10200-00100 Nairobi, Kenya</span></li>
+                        <li><span>Tel: (+254) 020 765 4300</span></li>
+                        <li><span>Email: support@ca2.go.ke</span></li>
+                        <li><span>Email: verification@ca2.go.ke</span></li>
+                        <li><span>Email: partnerships@ca2.go.ke</span></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-wrap">
+                <p>Copyright &copy; {% now "Y" %} | CA² System | All Rights Reserved.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">
+                        <img src="{% static 'images/social-facebook.svg' %}" alt="Facebook">
+                    </a>
+                    <a href="#" aria-label="X">
+                        <img src="{% static 'images/social-x.svg' %}" alt="X">
+                    </a>
+                    <a href="#" aria-label="WhatsApp">
+                        <img src="{% static 'images/social-whatsapp.svg' %}" alt="WhatsApp">
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <img src="{% static 'images/social-linkedin.svg' %}" alt="LinkedIn">
+                    </a>
+                    <a href="#" aria-label="Telegram">
+                        <img src="{% static 'images/social-telegram.jfif' %}" alt="Telegram">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

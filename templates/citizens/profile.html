@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Citizen Profile</h2>
+    <p>Update details used for OTP delivery and verification.</p>
+    {% if request.user.citizen_profile.passport_photo %}
+        <div class="passport-preview">
+            <p><strong>Current Passport Photo</strong></p>
+            <img src="{{ request.user.citizen_profile.passport_photo.url }}" alt="Citizen passport photo">
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+</section>
+{% endblock %}

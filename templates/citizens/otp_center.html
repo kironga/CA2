@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card narrow">
+    <h2>OTP Center</h2>
+    <p>This page shows your current active OTP for verification support.</p>
+
+    {% if active_request and preview and preview.otp %}
+        <p><strong>Current OTP:</strong> <span style="font-size:1.3rem; letter-spacing:0.15rem;">{{ preview.otp }}</span></p>
+        <p><strong>Expires At:</strong> {{ active_request.expires_at }}</p>
+        <p><strong>Status:</strong> Active</p>
+    {% elif active_request %}
+        <p><strong>Status:</strong> Active OTP exists, but preview is unavailable. Check your email.</p>
+        <p><strong>Expires At:</strong> {{ active_request.expires_at }}</p>
+    {% else %}
+        <p>No active OTP request right now.</p>
+    {% endif %}
+</section>
+{% endblock %}

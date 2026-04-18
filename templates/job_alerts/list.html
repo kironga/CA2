@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Job Alerts</h2>
+    <p>Create and distribute vacancy notifications to registered citizen emails.</p>
+    <a class="button-link" href="{% url 'job_alert_create' %}">Create Job Alert</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Organization</th>
+                <th>External Links</th>
+                <th>Recipients</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.title }}</td>
+                    <td>{{ alert.organization }}</td>
+                    <td>
+                        {% if alert.more_info_url %}
+                            <a href="{{ alert.more_info_url }}" target="_blank" rel="noopener">More Info</a>
+                        {% endif %}
+                        {% if alert.more_info_url and alert.application_url %} | {% endif %}
+                        {% if alert.application_url %}
+                            <a href="{{ alert.application_url }}" target="_blank" rel="noopener">Apply</a>
+                        {% endif %}
+                        {% if not alert.more_info_url and not alert.application_url %}-{% endif %}
+                    </td>
+                    <td>{{ alert.recipients_count }}</td>
+                    <td>{{ alert.created_at }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">No job alerts yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Government Control: Businesses and HR</h2>
+    <p>Add businesses and issue HR login credentials used to verify applicant academic records.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Business & HR Credentials</button>
+    </form>
+</section>
+
+<section class="card">
+    <h3>Registered Businesses</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Business</th>
+                <th>Code</th>
+                <th>HR Accounts</th>
+                <th>Control</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for business in businesses %}
+                <tr>
+                    <td>{{ business.name }}</td>
+                    <td>{{ business.code }}</td>
+                    <td>
+                        {% for profile in business.hr_managers.all %}
+                            <div>{{ profile.user.email }} {% if not profile.user.is_active %}(disabled){% endif %}</div>
+                        {% empty %}
+                            <div>No linked HR account</div>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="button-link" href="{% url 'government_business_edit' business.pk %}">Edit</a>
+                        <form method="post" action="{% url 'government_business_delete' business.pk %}" style="display:inline-block;">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Delete this business and disable linked HR accounts?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No businesses registered yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

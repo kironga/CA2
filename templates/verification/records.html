@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Verified Academic Records</h2>
+    <p><strong>National ID:</strong> {{ national_id }}</p>
+    {% if citizen %}
+        {% if citizen.passport_photo %}
+            <div class="passport-preview">
+                <p><strong>Citizen Passport Photo</strong></p>
+                <img src="{{ citizen.passport_photo.url }}" alt="Citizen passport photo">
+            </div>
+        {% endif %}
+        <p><strong>Candidate:</strong> {{ citizen.user.get_full_name }} ({{ citizen.otp_email }})</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Institution</th>
+                <th>Certificate</th>
+                <th>Level</th>
+                <th>Grade</th>
+                <th>Year</th>
+                <th>Certificate PDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.institution.name }}</td>
+                    <td>{{ record.certificate_name }}</td>
+                    <td>{{ record.award_level }}</td>
+                    <td>{{ record.grade|default:"-" }}</td>
+                    <td>{{ record.graduation_year }}</td>
+                    <td>
+                        {% if record.certificate_file %}
+                            <button type="button" class="button-link secondary" data-view-url="{% url 'certificate_file_hr' record.pk %}">View</button>
+                        {% else %}
+                            <span class="muted">Not uploaded</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No academic records found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<div id="pdf-modal" class="pdf-modal" style="display:none;">
+    <div class="pdf-modal__backdrop"></div>
+    <div class="pdf-modal__content">
+        <button type="button" class="pdf-modal__close">Close</button>
+        <iframe id="pdf-frame" title="Certificate PDF" style="width:100%; height:70vh; border:1px solid #dbe4ec; border-radius:8px;"></iframe>
+    </div>
+</div>
+
+<style>
+.pdf-modal__backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 900;
+}
+.pdf-modal__content {
+    position: fixed; inset: 5% 8%; background: #fff; z-index: 901; padding: 1rem; border-radius: 12px; box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+}
+.pdf-modal__close {
+    float: right; margin-bottom: 0.5rem; background: #0f3b62; color: #fff; border: none; border-radius: 8px; padding: 0.4rem 0.8rem; cursor: pointer;
+}
+.pdf-modal__close:hover { background: #0c2f4f; }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("pdf-modal");
+    const frame = document.getElementById("pdf-frame");
+    const closeBtn = document.querySelector(".pdf-modal__close");
+
+    document.querySelectorAll("[data-view-url]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const absolute = new URL(btn.dataset.viewUrl, window.location.origin).toString();
+            frame.src = absolute + "#toolbar=0&navpanes=0&scrollbar=1";
+            modal.style.display = "block";
+        });
+    });
+
+    const closeModal = () => {
+        frame.src = "";
+        modal.style.display = "none";
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+        if (e.target.classList.contains("pdf-modal__backdrop")) closeModal();
+    });
+});
+</script>
+{% endblock %}

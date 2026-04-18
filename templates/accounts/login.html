@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card narrow">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sign in</button>
+    </form>
+    <p class="login-note"><a href="{% url 'forgot_password_request' %}">Forgot password?</a></p>
+
+    {% if portal == "gov" %}
+        <p class="login-note"><strong>Government Admin Access:</strong> Ensure you are an authorized CA² Government Admin before signing in.</p>
+    {% elif portal == "institution" %}
+        <p class="login-note">No institution account yet?</p>
+        <a class="button-link secondary" href="{% url 'institution_access_request' %}">Request Government Registration</a>
+    {% elif portal == "hr" %}
+        <p class="login-note">No HR account yet?</p>
+        <a class="button-link secondary" href="{% url 'hr_access_request' %}">Request Government Registration</a>
+    {% elif portal == "citizen" %}
+        <p class="login-note">No account? <a href="{% url 'citizen_register' %}">Citizen registration</a></p>
+    {% else %}
+        <p class="login-note">No account? <a href="{% url 'citizen_register' %}">Citizen registration</a></p>
+        <div class="portal-actions">
+            <a class="button-link secondary" href="{% url 'institution_access_request' %}">Institution Request</a>
+            <a class="button-link secondary" href="{% url 'hr_access_request' %}">HR Request</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

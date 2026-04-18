@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>My Education Details</h2>
+    <p><strong>National ID:</strong> {{ profile.national_id }}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Institution</th>
+                <th>Certificate</th>
+                <th>Level</th>
+                <th>Grade</th>
+                <th>Year</th>
+                <th>Certificate PDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.institution.name }}</td>
+                    <td>{{ record.certificate_name }}</td>
+                    <td>{{ record.award_level }}</td>
+                    <td>{{ record.grade|default:"-" }}</td>
+                    <td>{{ record.graduation_year }}</td>
+                    <td>
+                        {% if record.certificate_file %}
+                            <a class="button-link secondary" href="{% url 'certificate_file_citizen' record.pk %}">Download</a>
+                        {% else %}
+                            <span class="muted">Not uploaded</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No education records available yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

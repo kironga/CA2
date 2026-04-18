@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Edit Institution</h2>
+    <p>Amend institution details and linked institution admin account details.</p>
+    <p><strong>Current Institution:</strong> {{ institution.name }} ({{ institution.code }})</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+        <a class="button-link secondary" href="{% url 'government_institutions' %}">Back</a>
+    </form>
+</section>
+{% endblock %}

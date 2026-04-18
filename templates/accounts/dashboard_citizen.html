@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Citizen Dashboard</h2>
+    <p>Access your profile, education records, verification history, OTP center, and job alerts.</p>
+</section>
+
+<section class="portal-grid">
+    <article class="portal-card">
+        <h3>My Profile</h3>
+        <p>View and update your National ID and OTP email details.</p>
+        <a class="button-link" href="{% url 'citizen_profile' %}">Open Profile</a>
+    </article>
+
+    <article class="portal-card">
+        <h3>My Education Details</h3>
+        <p>See all certificates and academic records linked to your National ID.</p>
+        <a class="button-link" href="{% url 'citizen_education_details' %}">View Education Details</a>
+    </article>
+
+    <article class="portal-card">
+        <h3>Who Viewed My Records</h3>
+        <p>Track businesses and HR users who accessed your verified education details.</p>
+        <a class="button-link" href="{% url 'citizen_access_history' %}">View Access History</a>
+    </article>
+
+    <article class="portal-card">
+        <h3>OTP Center</h3>
+        <p>View the currently active OTP issued for your verification request.</p>
+        <a class="button-link" href="{% url 'citizen_otp_center' %}">Open OTP Center</a>
+    </article>
+
+    <article class="portal-card">
+        <h3>Job Alerts</h3>
+        <p>View all vacancy alerts shared by registered businesses and HR managers.</p>
+        <a class="button-link" href="{% url 'citizen_job_alerts' %}">View Job Alerts</a>
+    </article>
+</section>
+{% endblock %}

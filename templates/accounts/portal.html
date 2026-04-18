@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="portal-hero">
+    <div class="hero-copy">
+        <p class="eyebrow">Authentication of Academic Credentials System</p>
+        <h2>One trusted portal for academic credential verification in Kenya</h2>
+        <p>
+            CA² connects institutions, examination bodies, government supervisors, HR managers, and citizens
+            through a secure National ID and email OTP workflow. Use this central page to enter every component.
+        </p>
+        <div class="portal-actions">
+            {% if user.is_authenticated and current_workspace %}
+                <a class="button-link" href="{% url current_workspace.url_name %}">Open {{ current_workspace.label }}</a>
+            {% else %}
+                <a class="button-link" href="{% url 'login' %}">Sign In To Continue</a>
+            {% endif %}
+            <a class="button-link secondary" href="{% url 'citizen_register' %}">Citizen Registration</a>
+        </div>
+    </div>
+    <div class="hero-art">
+        <img src="{% static 'images/portal-hero.svg' %}" alt="CA2 credential verification illustration">
+    </div>
+</section>
+
+<section class="portal-grid">
+    <article class="portal-card">
+        <img class="portal-visual visual-emblem" src="{% static 'images/portal-gov-emblem-clean.jpg' %}" alt="Government oversight module">
+        <h3>Government / Admin Interface</h3>
+        <p>
+            Monitor institution activity, track verification traffic, and supervise fraud-risk indicators through
+            aggregated system metrics and audit visibility.
+        </p>
+        {% if user.is_authenticated and user.role == 'GOV_ADMIN' %}
+            <a class="button-link" href="{% url 'dashboard_admin' %}">Open Government Area</a>
+        {% else %}
+            <a class="button-link" href="{% url 'login' %}?portal=gov&next={% url 'dashboard_admin' %}">Login as Government Admin</a>
+        {% endif %}
+    </article>
+
+    <article class="portal-card">
+        <img class="portal-visual visual-photo" src="{% static 'images/portal-institution-ku-full.jpg' %}" alt="Kenyatta University gate">
+        <h3>Institution / Exam Body Interface</h3>
+        <p>
+            Upload, correct, and maintain certificate records for graduates from universities and examination
+            bodies such as KNEC and KASNEB.
+        </p>
+        {% if user.is_authenticated and user.role == 'INST_ADMIN' %}
+            <a class="button-link" href="{% url 'dashboard_institution' %}">Open Institution Area</a>
+        {% else %}
+            <a class="button-link" href="{% url 'login' %}?portal=institution&next={% url 'dashboard_institution' %}">Login as Institution Admin</a>
+        {% endif %}
+    </article>
+
+    <article class="portal-card">
+        <img class="portal-visual visual-photo" src="{% static 'images/portal-business-photo.jpg' %}" alt="Business HR manager">
+        <h3>HR Manager / Public Service Interface</h3>
+        <p>
+            Verify applicants by National ID, trigger email OTP consent, and view verified academic history only
+            after successful OTP validation.
+        </p>
+        {% if user.is_authenticated and user.role == 'HR_MANAGER' %}
+            <a class="button-link" href="{% url 'dashboard_hr' %}">Open HR Area</a>
+        {% else %}
+            <a class="button-link" href="{% url 'login' %}?portal=hr&next={% url 'dashboard_hr' %}">Login as HR Manager</a>
+        {% endif %}
+    </article>
+
+    <article class="portal-card">
+        <img class="portal-visual visual-photo" src="{% static 'images/portal-citizen-photo.jpg' %}" alt="Citizen profile module">
+        <h3>Citizen / Applicant Interface</h3>
+        <p>
+            Register and maintain your National ID and OTP email, then receive secure verification requests and
+            job vacancy notifications.
+        </p>
+        {% if user.is_authenticated and user.role == 'CITIZEN' %}
+            <a class="button-link" href="{% url 'dashboard_citizen' %}">Open Citizen Area</a>
+        {% else %}
+            <a class="button-link" href="{% url 'login' %}?portal=citizen&next={% url 'dashboard_citizen' %}">Login as Citizen</a>
+            <a class="button-link secondary" href="{% url 'citizen_register' %}">Register as Citizen</a>
+        {% endif %}
+    </article>
+</section>
+
+<section class="timeline">
+    <h3>Core Workflow Snapshot</h3>
+    <ol>
+        <li>Institution uploads graduate credentials.</li>
+        <li>Citizen links National ID to verified email.</li>
+        <li>HR requests verification by National ID.</li>
+        <li>System sends OTP to citizen email.</li>
+        <li>HR enters OTP and views verified records.</li>
+    </ol>
+</section>
+{% endblock %}

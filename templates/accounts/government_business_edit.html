@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Edit Business</h2>
+    <p>Amend business details and linked HR account details.</p>
+    <p><strong>Current Business:</strong> {{ business.name }} ({{ business.code }})</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+        <a class="button-link secondary" href="{% url 'government_businesses' %}">Back</a>
+    </form>
+</section>
+{% endblock %}

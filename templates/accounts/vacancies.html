@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Vacancies and Opportunities</h2>
+    <p>Current opportunities published by registered businesses and HR managers on CA².</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Opportunity</th>
+                <th>Business</th>
+                <th>Location</th>
+                <th>Deadline</th>
+                <th>Published</th>
+                <th>Links</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in opportunities %}
+                <tr>
+                    <td>
+                        <strong>{{ item.alert.title }}</strong><br>
+                        {{ item.alert.description|truncatechars:120 }}
+                    </td>
+                    <td>{{ item.business_name }}</td>
+                    <td>{{ item.alert.location|default:"-" }}</td>
+                    <td>{{ item.alert.application_deadline|default:"Open" }}</td>
+                    <td>{{ item.alert.created_at|date:"Y-m-d" }}</td>
+                    <td>
+                        {% if item.alert.more_info_url %}
+                            <a href="{{ item.alert.more_info_url }}" target="_blank" rel="noopener">More Info</a>
+                        {% endif %}
+                        {% if item.alert.more_info_url and item.alert.application_url %} | {% endif %}
+                        {% if item.alert.application_url %}
+                            <a href="{{ item.alert.application_url }}" target="_blank" rel="noopener">Apply</a>
+                        {% endif %}
+                        {% if not item.alert.more_info_url and not item.alert.application_url %}-{% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No vacancies available at the moment.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

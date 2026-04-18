@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>About CA²</h2>
+    <p>
+        CA² (Authentication of Academic Credentials System) is a national digital platform for secure verification of
+        academic qualifications using National ID and consent-based email OTP.
+    </p>
+</section>
+
+<section class="portal-grid">
+    <article class="portal-card">
+        <h3>Our Vision</h3>
+        <p>
+            To become Kenya's trusted digital backbone for instant and credible academic credential verification
+            across public and private sectors.
+        </p>
+    </article>
+
+    <article class="portal-card">
+        <h3>Our Mission</h3>
+        <p>
+            To reduce certificate fraud by connecting institutions, government, citizens, and employers through
+            accurate records, secure OTP consent, and transparent verification workflows.
+        </p>
+    </article>
+</section>
+
+<section class="card">
+    <h3>Frequently Asked Questions</h3>
+    <details>
+        <summary>How does CA² verification work?</summary>
+        <p>HR enters National ID, the system sends an OTP to the citizen's registered email, and records are shown only after OTP validation.</p>
+    </details>
+    <details>
+        <summary>Who can upload academic records?</summary>
+        <p>Only authorized institution or exam body administrators can add or update records.</p>
+    </details>
+    <details>
+        <summary>Can I update my OTP email?</summary>
+        <p>Yes. Citizens can update profile details, including OTP email, from the Citizen dashboard.</p>
+    </details>
+    <details>
+        <summary>Is verification access tracked?</summary>
+        <p>Yes. Citizens can view businesses and HR users that have accessed their verified records.</p>
+    </details>
+</section>
+{% endblock %}

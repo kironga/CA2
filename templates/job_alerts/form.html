@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Create Job Alert</h2>
+    <p>Add optional external links so applicants can open the company page directly.</p>
+    <form method="post">
+        {% csrf_token %}
+        <p>{{ form.title.label_tag }} {{ form.title }}</p>
+        <p>{{ form.organization.label_tag }} {{ form.organization }}</p>
+        <p>{{ form.location.label_tag }} {{ form.location }}</p>
+        <p>{{ form.application_deadline.label_tag }} {{ form.application_deadline }}</p>
+        <p>{{ form.description.label_tag }} {{ form.description }}</p>
+
+        <h3>External Application Links</h3>
+        <p>{{ form.more_info_url.label_tag }} {{ form.more_info_url }}</p>
+        <p>{{ form.application_url.label_tag }} {{ form.application_url }}</p>
+
+        {% if form.errors %}
+            <ul class="messages">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li class="error">{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li class="error">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <button type="submit">Send Alert</button>
+    </form>
+</section>
+{% endblock %}

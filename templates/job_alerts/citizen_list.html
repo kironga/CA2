@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Available Job Alerts</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Organization</th>
+                <th>Location</th>
+                <th>Deadline</th>
+                <th>Links</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.title }}</td>
+                    <td>{{ alert.organization }}</td>
+                    <td>{{ alert.location|default:"-" }}</td>
+                    <td>{{ alert.application_deadline|default:"-" }}</td>
+                    <td>
+                        {% if alert.more_info_url %}
+                            <a href="{{ alert.more_info_url }}" target="_blank" rel="noopener">More Info</a>
+                        {% endif %}
+                        {% if alert.more_info_url and alert.application_url %} | {% endif %}
+                        {% if alert.application_url %}
+                            <a href="{{ alert.application_url }}" target="_blank" rel="noopener">Apply</a>
+                        {% endif %}
+                        {% if not alert.more_info_url and not alert.application_url %}-{% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">No job alerts available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

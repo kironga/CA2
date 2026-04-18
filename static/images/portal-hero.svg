@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 330" role="img" aria-label="CA2 platform overview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f6fcff"/>
+      <stop offset="100%" stop-color="#deeff5"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f6b43"/>
+      <stop offset="100%" stop-color="#114a78"/>
+    </linearGradient>
+  </defs>
+  <rect width="520" height="330" fill="url(#bg)" rx="28"/>
+  <circle cx="84" cy="76" r="44" fill="#ffffff" opacity=".75"/>
+  <circle cx="448" cy="268" r="58" fill="#ffffff" opacity=".75"/>
+  <rect x="130" y="44" width="260" height="242" rx="22" fill="#ffffff"/>
+  <rect x="154" y="70" width="212" height="46" rx="14" fill="#eaf4f8"/>
+  <text x="176" y="99" font-family="Arial, sans-serif" font-size="20" fill="#133042">CA2 Portal</text>
+  <rect x="154" y="132" width="96" height="62" rx="12" fill="url(#accent)"/>
+  <rect x="270" y="132" width="96" height="62" rx="12" fill="#153d61"/>
+  <rect x="154" y="208" width="212" height="40" rx="10" fill="#edf4f7"/>
+  <path d="M176 168l12 12 20-24" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+  <circle cx="318" cy="163" r="14" fill="#79d6f8"/>
+  <rect x="150" y="254" width="90" height="8" rx="4" fill="#c4d9e5"/>
+  <rect x="252" y="254" width="76" height="8" rx="4" fill="#c4d9e5"/>
+</svg>

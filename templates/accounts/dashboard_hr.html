@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-hero soft">
+    <div>
+        <p class="eyebrow">HR Dashboard</p>
+        <h1>Verify candidate credentials faster.</h1>
+        <p class="lede">Request OTPs, complete verifications, review access logs, and publish job alerts.</p>
+    </div>
+    <div class="hero-panel">
+        <p class="kpi-label">Active OTPs</p>
+        <p class="kpi-value">{{ active_otps }}</p>
+        <p class="kpi-sub">Verified: {{ used_otps }} · Total: {{ total_requests }}</p>
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-primary" href="{% url 'request_otp' %}">Request OTP</a>
+        <a class="btn btn-ghost" href="{% url 'job_alert_list' %}">Manage Job Alerts</a>
+    </div>
+</div>
+
+<div class="dashboard-cards">
+    <article class="card-cta">
+        <h2>Request OTP</h2>
+        <p>Send a one-time password to the candidate’s registered email for consent.</p>
+        <a class="btn btn-primary" href="{% url 'request_otp' %}">Start Verification</a>
+    </article>
+
+    <article class="card-cta">
+        <h2>Verify OTP</h2>
+        <p>Enter the code provided by the candidate to unlock their verified records.</p>
+        <a class="btn btn-primary" href="{% url 'verify_otp' %}">Go to Verify</a>
+    </article>
+
+    <article class="card-cta">
+        <h2>Access Logs</h2>
+        <p>See your most recent record views and keep an audit trail.</p>
+        <div class="card-inline">
+            <span class="pill info">Last 5</span>
+            <ul class="mini-list">
+                {% for log in recent_access_logs %}
+                    <li>{{ log.national_id }}{% if log.business %} · {{ log.business.name }}{% endif %}</li>
+                {% empty %}
+                    <li>No verifications yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+
+    <article class="card-cta">
+        <h2>Job Alerts</h2>
+        <p>Create or update job alerts to reach verified candidates quickly.</p>
+        <a class="btn btn-ghost" href="{% url 'job_alert_list' %}">Manage Alerts</a>
+    </article>
+</div>
+{% endblock %}

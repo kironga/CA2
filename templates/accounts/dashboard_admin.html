@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-hero soft alt">
+    <div>
+        <p class="eyebrow">Government Oversight</p>
+        <h1>Supervise institutions, HR, and citizen verifications.</h1>
+        <p class="lede">Manage entity onboarding, monitor OTP activity, and keep credential records consistent.</p>
+    </div>
+    <div class="hero-panel">
+        <p class="kpi-label">Institutions</p>
+        <p class="kpi-value">{{ institutions_count }}</p>
+        <p class="kpi-sub">Admins: {{ institution_admins_count }} · HR: {{ business_hr_count }}</p>
+        <p class="kpi-mini">OTP requests: {{ otp_requests_count }}</p>
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-primary" href="{% url 'government_institutions' %}">Manage Institutions</a>
+        <a class="btn btn-ghost" href="{% url 'government_businesses' %}">Manage Businesses & HR</a>
+    </div>
+</div>
+
+<div class="dashboard-cards">
+    <article class="card-cta">
+        <h2>Citizens & Credentials</h2>
+        <p>Search citizens, view linked certificates, and audit verification activity.</p>
+        <a class="btn btn-primary" href="{% url 'government_citizens' %}">Open Citizens</a>
+    </article>
+
+    <article class="card-cta">
+        <h2>Admin Console</h2>
+        <p>Access the Django admin for power operations and advanced configuration.</p>
+        <a class="btn btn-ghost" href="/admin/">Open Admin</a>
+    </article>
+
+    <article class="card-cta">
+        <h2>Recent Institutions</h2>
+        <p>Latest entities onboarded.</p>
+        <div class="card-inline">
+            <span class="pill info">Newest</span>
+            <ul class="mini-list">
+                {% for inst in recent_institutions %}
+                    <li>{{ inst.name }} ({{ inst.code }})</li>
+                {% empty %}
+                    <li>No institutions yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+
+    <article class="card-cta">
+        <h2>Recent OTP Requests</h2>
+        <p>Monitor the latest verification attempts across the system.</p>
+        <div class="card-inline">
+            <span class="pill info">Last 5</span>
+            <ul class="mini-list">
+                {% for r in recent_otps %}
+                    <li>{{ r.national_id }} · {{ r.requested_by.email }}</li>
+                {% empty %}
+                    <li>No OTP activity yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+</div>
+{% endblock %}

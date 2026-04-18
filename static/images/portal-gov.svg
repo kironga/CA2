@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 240" role="img" aria-label="Government module">
+  <defs>
+    <linearGradient id="govbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#edf7ff"/>
+      <stop offset="100%" stop-color="#d7ebfb"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="240" rx="22" fill="url(#govbg)"/>
+  <rect x="78" y="150" width="264" height="52" rx="9" fill="#194b71"/>
+  <path d="M210 42l132 54H78z" fill="#1f5f8f"/>
+  <rect x="103" y="102" width="24" height="48" rx="6" fill="#ffffff"/>
+  <rect x="157" y="102" width="24" height="48" rx="6" fill="#ffffff"/>
+  <rect x="211" y="102" width="24" height="48" rx="6" fill="#ffffff"/>
+  <rect x="265" y="102" width="24" height="48" rx="6" fill="#ffffff"/>
+  <circle cx="332" cy="56" r="24" fill="#0f6b43"/>
+  <path d="M322 56l7 7 13-15" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+</svg>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card narrow">
+    <h2>HR Verification: Step 2</h2>
+    <p>National ID: <strong>{{ national_id }}</strong></p>
+    <p>OTP expires at: {{ expires_at }}</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Validate OTP</button>
+    </form>
+</section>
+{% endblock %}

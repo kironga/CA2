@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Businesses That Viewed My Education Details</h2>
+    <p><strong>National ID:</strong> {{ profile.national_id }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Business</th>
+                <th>HR User</th>
+                <th>Source</th>
+                <th>Viewed At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in accesses %}
+                <tr>
+                    <td>{{ entry.business.name|default:"Not linked" }}</td>
+                    <td>{{ entry.hr_user.email|default:"Unknown" }}</td>
+                    <td>{{ entry.get_source_display }}</td>
+                    <td>{{ entry.accessed_at }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No business has viewed your education details yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

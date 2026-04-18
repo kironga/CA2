@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card wide-form">
+    <h2>{{ action }} Certificate Record</h2>
+<form method="post" id="certificate-form" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <div id="nid-suggestions" class="suggestions"></div>
+        <button type="submit">{{ action }} Record</button>
+    </form>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const nidInput = document.getElementById("id_national_id");
+    const nameInput = document.getElementById("id_full_name");
+    const certInput = document.getElementById("id_certificate_name");
+    const awardInput = document.getElementById("id_award_level");
+    const gradeInput = document.getElementById("id_grade");
+    const yearInput = document.getElementById("id_graduation_year");
+    const regInput = document.getElementById("id_registration_number");
+    const suggestionBox = document.getElementById("nid-suggestions");
+    if (!nidInput || !suggestionBox) return;
+
+    // Place suggestion box just after the National ID input.
+    nidInput.insertAdjacentElement("afterend", suggestionBox);
+
+    let debounceTimer;
+    nidInput.addEventListener("input", function () {
+        const q = nidInput.value.trim();
+        suggestionBox.innerHTML = "";
+        suggestionBox.classList.remove("show");
+        if (q.length < 3) return;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => fetchSuggestions(q), 180);
+    });
+
+    function fetchSuggestions(q) {
+        fetch("{% url 'institution_citizen_lookup' %}?q=" + encodeURIComponent(q))
+            .then((res) => res.json())
+            .then((data) => renderSuggestions(data))
+            .catch(() => {
+                suggestionBox.innerHTML = "";
+                suggestionBox.classList.remove("show");
+            });
+    }
+
+    function renderSuggestions(list) {
+        if (!list.length) {
+            suggestionBox.innerHTML = "";
+            suggestionBox.classList.remove("show");
+            return;
+        }
+        suggestionBox.innerHTML = "";
+        list.forEach((item) => {
+            const row = document.createElement("div");
+            row.className = "suggestion-row";
+            const recordText = item.record ? ` • ${item.record.certificate_name} (${item.record.graduation_year})` : "";
+            row.innerHTML = `<div class="s-main">${item.national_id}</div><div class="s-sub">${item.full_name} · ${item.otp_email}${recordText}</div>`;
+            row.addEventListener("click", () => {
+                nidInput.value = item.national_id;
+                if (nameInput) nameInput.value = item.full_name || "";
+                if (item.record) {
+                    if (certInput) certInput.value = item.record.certificate_name || certInput.value;
+                    if (awardInput) awardInput.value = item.record.award_level || awardInput.value;
+                    if (gradeInput) gradeInput.value = item.record.grade || gradeInput.value;
+                    if (yearInput) yearInput.value = item.record.graduation_year || yearInput.value;
+                    if (regInput) regInput.value = item.record.registration_number || regInput.value;
+                }
+                suggestionBox.innerHTML = "";
+                suggestionBox.classList.remove("show");
+            });
+            suggestionBox.appendChild(row);
+        });
+        suggestionBox.classList.add("show");
+    }
+
+    document.addEventListener("click", (e) => {
+        if (!suggestionBox.contains(e.target) && e.target !== nidInput) {
+            suggestionBox.innerHTML = "";
+            suggestionBox.classList.remove("show");
+        }
+    });
+});
+</script>
+{% endblock %}
